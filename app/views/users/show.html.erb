@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+
+
+  <body>
+    <div class="container">
+      <header>
+        <h3>
+          Hello, <%= @user.name %> <span>The Dream is Never Really Dead - Jon Cho</span>
+        </h3>
+        <a id="logout" href="/sessions/destroy">Log Out</a>
+      </header>
+      <div class="leftsection">
+        <img src="" alt="" />
+        <p>
+          <label>Graduation Year:</label>
+          <%= @user.profile.grad_year%>
+        </p>
+        <p>
+          <label>School:</label>
+          <%= @user.profile.school%>
+        </p>
+        <p>
+          <label>Major:</label>
+          <%= @user.profile.major%>
+        </p>
+        <p>
+          <label>Current Occupation:</label>
+          <%= @user.profile.current_occupation%>
+        </p>
+        <p>
+          <label>Favorite Quote:</label>
+          <%= @user.profile.fav_quote%>
+        </p>
+        <p>
+          <label>Phone Number:</label>
+          <%= @user.profile.phone_number%>
+        </p>
+        <p>
+          <label>Email:</label>
+          <%= @user.email%>
+        </p>
+        <p>
+          <label>Status:</label>
+          <%if @user.profile.status == 0
+              @user.profile.status = "Active"
+            elsif @user.profile.status == 1
+              @user.profile.status = "InActive"
+            end %>
+          <%= @user.profile.status%>
+        </p>
+        <a href="/users/update">Edit your Profile!</a>
+      </div>
+      <div class="main_content">
+        <h1>All Organizations:</h1>
+        <div class="organizations">
+          <%if flash[:success]%>
+            <%= flash[:success] %>
+            <%end%>
+          <% @organizations = Organization.all%>
+
+          <% @organizations.each do |a|%>
+            <div class="organization">
+              <%= a.current_location %>:<%= a.name%>
+              <p>Note: "<%= a.description %>"</p>
+              <p>Email: <%= a.email %></p>
+              <p>President: <%= a.weblink %></p>
+              <form accept-charset="UTF-8" action="/organizations/<%= a.id %>" method="post">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                  <input name="_method" type="hidden" value="delete" />
+                  <input type="submit" name="name" value="Delete">
+              </form>
+              <button type="button" name="button"></button><a  href="/organizations/<%= a.id %>/edit">Edit</a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="rightsection">
+        <a href="/organizations/register">Create an Organization</a>
+      </div>
+    </div>
+  </body>
+</html>
