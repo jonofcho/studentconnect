@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   def create
-    org = Organization.new(users_params)
+    org = Organization.new(org_params)
     org.save
     redirect_to '/users'
   end
@@ -23,7 +23,7 @@ class OrganizationsController < ApplicationController
   end
   def update
     if @org = Organization.find_by(id: params[:id])
-    @org.update_attributes(organizations_params)
+    @org.update_attributes(org_params)
     redirect_to '/users'
       else
         flash[:errors] = "No Bueno dawg"
@@ -32,10 +32,7 @@ class OrganizationsController < ApplicationController
 
   end
   private
-  def users_params
-    params.require(:organization).permit(:name, :current_location, :description, :weblink, :email)
-  end
-  def organizations_params
+  def org_params
     params.require(:organization).permit(:name, :current_location, :description, :weblink, :email)
   end
 
